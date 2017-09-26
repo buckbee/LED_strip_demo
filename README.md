@@ -6,3 +6,4 @@ Include:
   - Docs
   - Code
   - Datasheets
+  - Kasper
