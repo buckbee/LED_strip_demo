@@ -20,6 +20,7 @@ const int numb_of_readings = 5;
 const int median_index = ceil(numb_of_readings/2);
 long duration;
 int current_distance;
+int practical_distance;
 int dist_read_array[numb_of_readings];
 int median_distance;
 
@@ -29,12 +30,25 @@ int median_distance;
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_OF_PIXELS, LED_PIN);
 int controllable_distance = 40; // in cm
 int ultrasonic_deadspace = 5; //in cm
-uint32_t color_on = strip.Color(255, 255, 255);
-uint32_t color_off = strip.Color(0, 0, 0);
-uint32_t color_30 = strip.Color(30, 30, 0);
-uint32_t color_5 = strip.Color(5, 0, 5);
 int led_counter;
 float leds_off_prop;
+uint32_t color_off = strip.Color(0, 0, 0);
+//**************************************************************
+// The line above shows the definition of the colour of the LED when
+// it is in its OFF state. The function strip.Color() takes three input
+// arguments, which represent a particular colour code in the RGB scheme.
+// Hence (0, 0, 0) is equivalent to 'black' or, in practical case, the 
+// LED being OFF.
+//
+// Your task here is to insert an identical statement to make the LEDs
+// light up in yellow colour when they are on. To achieve that you will
+// need to find out which RGB values encode the yellow colour. Finally,
+// you should call the variable 'colour_on'.
+//
+// INSERT A LINE OF CODE BELOW:
+
+//
+//**************************************************************
 
 
 
@@ -42,14 +56,15 @@ float leds_off_prop;
 //---MAIN CODE---
 //---------------
 void setup() {
-  //Ultrasonic
-  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
-  Serial.begin(9600); // Starts the serial communication
-  
-  //LEDs
-  strip.begin(); //initiliase pin
-  strip.show(); //all pixels 'off' 
+//**************************************************************
+// Following the examples from the individual LED and Ultrasonic sensor 
+// codes, you will have to initialize both devices with corresponding
+// statements.
+//  
+// INSERT CODE BELOW:
+
+//
+//**************************************************************
 }
 
 void loop() {
@@ -58,7 +73,7 @@ void loop() {
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   
-
+  // The loop below takes in 5 distance readings and stores them in an array
   for(int j=0;j<numb_of_readings;j++){
     // Sets the trigPin on HIGH state for 10 micro seconds
     digitalWrite(trigPin, HIGH);
@@ -75,8 +90,12 @@ void loop() {
 
   }
 
+  // Here the array with 5 recent distance readings is sorted in ascending order
   sort(dist_read_array,numb_of_readings);
-  if (dist_read_array[median_index] < 300)
+
+  // The median of the array is taken to achieve an averaging effect
+  // and discard any faulty readings.
+  if (dist_read_array[median_index] < practical_distance)
   {
     median_distance = dist_read_array[median_index] - ultrasonic_deadspace;              
   }
@@ -85,14 +104,14 @@ void loop() {
   Serial.print("Distance: ");
   Serial.print(median_distance);
   
+
   //LEDS 
-
-
-
   if(median_distance < controllable_distance)
   {  
     leds_off_prop = float(median_distance)/float(controllable_distance);
 
+    // The variable led_counter stores how many LEDs, counting from the start of the strip,
+    // have to be turned on, in order to follow the distance reading.
     led_counter = (1-leds_off_prop)*NUM_OF_PIXELS;
   }
   else
@@ -115,12 +134,24 @@ void loop() {
         }
       
     }
-    strip.setPixelColor(led_counter, color_30);
-    strip.setPixelColor(led_counter+1, color_5);
+
+//**************************************************************
+// Now that you have the number of LEDs that have to be turned on (led_counter)
+// and the number of LEDs in the strip (NUM_OF_PIXELS), you will need to form
+// another loop that will go through all LEDs and turn them on or off. In other words,
+// if the index of an LED is less than the value stored in 'led_counter', turn the LED on,
+// otherwise turn it off. To achieve this use a 'for' loop, similar to the one used in line 77
+// of this code. The function for changing the colour of the LEDs should be taken from the
+// individual LED code you've already worked on.
+//  
+// INSERT CODE BELOW:
+
+//
+//**************************************************************
     strip.show();
   
 
-  
+  //Informational message showing, how many LEDs are on
   Serial.print(", Number of LEDs on: ");
   Serial.print(led_counter);
   Serial.println(" ");
@@ -140,4 +171,3 @@ void sort(int a[], int size) {
     }
 }
 
-//Function 
