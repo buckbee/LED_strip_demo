@@ -120,21 +120,6 @@ void loop() {
     led_counter = 0;
   }
 
-    //Loop that goes through all LEDs and turns them on/off depending on distance
-    for(int i=0;i<NUM_OF_PIXELS;i++){
-      if(i<led_counter)
-        { 
-          
-          strip.setPixelColor(i, color_on);
-        }
-        
-      else
-        {
-          strip.setPixelColor(i, color_off);
-        }
-      
-    }
-
 //**************************************************************
 // Now that you have the number of LEDs that have to be turned on (led_counter)
 // and the number of LEDs in the strip (NUM_OF_PIXELS), you will need to form
