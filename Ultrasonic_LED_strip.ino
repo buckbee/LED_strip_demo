@@ -43,7 +43,7 @@ uint32_t color_off = strip.Color(0, 0, 0);
 // Your task here is to insert an identical statement to make the LEDs
 // light up in yellow colour when they are on. To achieve that you will
 // need to find out which RGB values encode the yellow colour. Finally,
-// you should call the variable 'colour_on'.
+// you should call the variable 'YELLOW'.
 //
 // INSERT A LINE OF CODE BELOW:
 
