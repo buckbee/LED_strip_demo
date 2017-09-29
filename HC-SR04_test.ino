@@ -15,8 +15,8 @@ long pulse_duration;
 int distance;
 
 void setup() {
-  pinMode(trigPin, OUTPUT); // set trigPin as an Output
-  pinMode(echoPin, INPUT); // set echoPin as an Input
+  pinMode(trigPin, //Blank: ________________________//); // input/output
+  pinMode(echoPin, //Blank: ________________________//); // input/output 
   Serial.begin(9600); // start serial communication at 9600 baud (bits/s)
 }
 
