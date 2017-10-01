@@ -4,7 +4,7 @@
 **          to the number of LEDs turned on in the strip.
 ** Usage:
 **
-** Created by: Justas Lukosiunas
+** Created by: Justas Lukosiunas, Ben Cunningham, Kasper Buckbee
 */
 
 //Include required libraries
@@ -29,10 +29,10 @@ int median_distance;
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_OF_PIXELS, LED_PIN);
 int controllable_distance = 40; // in cm
 int ultrasonic_deadspace = 5; //in cm
-uint32_t color_on = strip.Color(255, 255, 255);
-uint32_t color_off = strip.Color(0, 0, 0);
-uint32_t color_30 = strip.Color(30, 30, 0);
-uint32_t color_5 = strip.Color(5, 0, 5);
+uint32_t colour_on = strip.Color(255, 255, 255);
+uint32_t colour_off = strip.Color(0, 0, 0);
+uint32_t colour_30 = strip.Color(30, 30, 0);
+uint32_t colour_5 = strip.Color(5, 0, 5);
 int led_counter;
 float leds_off_prop;
 
@@ -106,17 +106,17 @@ void loop() {
       if(i<led_counter)
         { 
           
-          strip.setPixelColor(i, color_on);
+          strip.setPixelColor(i, colour_on);
         }
         
       else
         {
-          strip.setPixelColor(i, color_off);
+          strip.setPixelColor(i, colour_off);
         }
       
     }
-    strip.setPixelColor(led_counter, color_30);
-    strip.setPixelColor(led_counter+1, color_5);
+    strip.setPixelColor(led_counter, colour_30);
+    strip.setPixelColor(led_counter+1, colour_5);
     strip.show();
   
 
