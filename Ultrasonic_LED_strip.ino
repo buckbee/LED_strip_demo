@@ -28,7 +28,7 @@ int median_distance;
 #define LED_PIN 2  
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_OF_PIXELS, LED_PIN);
 int controllable_distance = 40; // in cm
-int ultrasonic_deadspace = 5; //in cm
+int ultrasonic_deadspace = 10; //in cm
 uint32_t colour_on = strip.Color(255, 255, 255);
 uint32_t colour_off = strip.Color(0, 0, 0);
 uint32_t colour_30 = strip.Color(30, 30, 0);
