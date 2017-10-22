@@ -21,7 +21,7 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_OF_PIXELS, LED_PIN);
 
 void setup() {
   strip.begin(); //initiliase strip pin for NeoPixel output
-  strip.show(); //write all pixels 'off' 
+  strip.show(); 
 }
 
 void loop() {
