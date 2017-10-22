@@ -14,8 +14,8 @@
 //---DEFINITIONS---
 //---------------
 //Ultrasonic sensor
-const int trigPin = 9;
-const int echoPin = 10;
+const int trigPin = //Blank: ________________________//;
+const int echoPin = //Blank: ________________________//;
 const int numb_of_readings = 5;
 const int median_index = ceil(numb_of_readings/2);
 long duration;
@@ -26,45 +26,21 @@ int median_distance;
 
 //LEDs
 #define NUM_OF_PIXELS 10
-#define LED_PIN 2  
+#define LED_PIN //Blank: ________________________// 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_OF_PIXELS, LED_PIN);
 int controllable_distance = 40; // in cm
 int ultrasonic_deadspace = 5; //in cm
 int led_counter;
 float leds_off_prop;
 uint32_t color_off = strip.Color(0, 0, 0);
-//**************************************************************
-// The line above shows the definition of the colour of the LED when
-// it is in its OFF state. The function strip.Color() takes three input
-// arguments, which represent a particular colour code in the RGB scheme.
-// Hence (0, 0, 0) is equivalent to 'black' or, in practical case, the 
-// LED being OFF.
-//
-// Your task here is to insert an identical statement to make the LEDs
-// light up in yellow colour when they are on. To achieve that you will
-// need to find out which RGB values encode the yellow colour. Finally,
-// you should call the variable 'YELLOW'.
-//
-// INSERT A LINE OF CODE BELOW:
-
-//
-//**************************************************************
-
-
+uint32_t color_on = //Blank: ________________________//; 
 
 //---------------
 //---MAIN CODE---
 //---------------
 void setup() {
-//**************************************************************
-// Following the examples from the individual LED and Ultrasonic sensor 
-// codes, you will have to initialize both devices with corresponding
-// statements.
-//  
-// INSERT CODE BELOW:
-
-//
-//**************************************************************
+//Blank: ________________________//; 
+//Blank: ________________________//; 
 }
 
 void loop() {
@@ -84,7 +60,7 @@ void loop() {
     duration = pulseIn(echoPin, HIGH);
     
     // Calculating the distance
-    current_distance = duration*0.034/2;
+    current_distance = //Blank: ________________________//;
     
     dist_read_array[j] = current_distance;
 
@@ -120,23 +96,25 @@ void loop() {
     led_counter = 0;
   }
 
-//**************************************************************
-// Now that you have the number of LEDs that have to be turned on (led_counter)
-// and the number of LEDs in the strip (NUM_OF_PIXELS), you will need to form
-// another loop that will go through all LEDs and turn them on or off. In other words,
-// if the index of an LED is less than the value stored in 'led_counter', turn the LED on,
-// otherwise turn it off. To achieve this use a 'for' loop, similar to the one used in line 77
-// of this code. The function for changing the colour of the LEDs should be taken from the
-// individual LED code you've already worked on.
-//  
-// INSERT CODE BELOW:
-
-//
-//**************************************************************
-    strip.show();
+  
+  //Iterating through the LEDs in order to update LED colours
+  for(int i=x; i<y; i++)
+    //Change i, x and y to the correct variables
+    {
+      if(x<led_counter)
+      {
+        //Blank: ________________________//;
+      }
+      else
+      {
+        //Blank: ________________________//;
+      }
+    }
+  
+  strip.show();
   
 
-  //Informational message showing, how many LEDs are on
+  //Informational message showing how many LEDs are on
   Serial.print(", Number of LEDs on: ");
   Serial.print(led_counter);
   Serial.println(" ");
