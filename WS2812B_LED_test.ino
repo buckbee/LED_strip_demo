@@ -26,8 +26,8 @@ void setup() {
 
 void loop() {
 
-  //Set 10 pixels to different colours
-  strip.setPixelColor(0, 255, 0, 255); // setPixelColor(LED number, R, G, B)
+  //Set 6 pixels ON (to different colours) and 4 pixels OFF.
+  strip.setPixelColor(0, 255, 0, 255); // setPixelColor(Pixel number, R, G, B)
   //Blank: ________________________//
   //Blank: ________________________//
   //Blank: ________________________//
