@@ -31,8 +31,7 @@ int controllable_distance = 40; // in cm
 int ultrasonic_deadspace = 10; //in cm
 uint32_t colour_on = strip.Color(255, 255, 255);
 uint32_t colour_off = strip.Color(0, 0, 0);
-uint32_t colour_30 = strip.Color(30, 30, 0);
-uint32_t colour_5 = strip.Color(5, 0, 5);
+
 int led_counter;
 float leds_off_prop;
 
@@ -115,8 +114,7 @@ void loop() {
         }
       
     }
-    strip.setPixelColor(led_counter, colour_30);
-    strip.setPixelColor(led_counter+1, colour_5);
+
     strip.show();
   
 
