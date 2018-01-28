@@ -4,7 +4,7 @@
 **          to the number of LEDs turned on in the strip.
 ** Usage:
 **
-** Created by: Justas Lukosiunas
+** Created by: Justas Lukosiunas, Ben Cunningham, Kasper Buckbee
 */
 
 //Include required libraries
@@ -14,112 +14,39 @@
 //---DEFINITIONS---
 //---------------
 //Ultrasonic sensor
-const int trigPin = //Blank: ________________________//;
-const int echoPin = //Blank: ________________________//;
+const int trigPin = 9;
+const int echoPin = 10;
 const int numb_of_readings = 5;
 const int median_index = ceil(numb_of_readings/2);
-long duration;
+long Time;
 int current_distance;
-int practical_distance;
 int dist_read_array[numb_of_readings];
 int median_distance;
 
-//LEDs
+//LEDS
 #define NUM_OF_PIXELS 10
-#define LED_PIN //Blank: ________________________// 
+#define LED_PIN 2  
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_OF_PIXELS, LED_PIN);
 int controllable_distance = 40; // in cm
-int ultrasonic_deadspace = 5; //in cm
+int ultrasonic_deadspace = 10; //in cm
 int led_counter;
 float leds_off_prop;
-uint32_t color_off = strip.Color(0, 0, 0);
-uint32_t color_on = //Blank: ________________________//; 
 
-//---------------
-//---MAIN CODE---
-//---------------
-void setup() {
-//Blank: ________________________//; 
-//Blank: ________________________//; 
+//-----------------------------------------------------------------
+//-----------------SEGMENTS TO BE COMPLETED------------------------
+//-----------------------------------------------------------------
+uint32_t colour_on = strip.Color(R,G,B); /*<-------Insert numbers 0-255 instead of R, G and B.*/
+uint32_t colour_off = strip.Color(R,G,B); /*<-------Insert numbers 0-255 instead of R, G and B.*/
+
+int calculate_distance(long Time) {
+  int distance = EQUATION;/*/<-------Insert your equation for calculating the distance instead of the word 'EQUATION'. 
+                          Use the variable name 'Time' for the ultrasonic sensor's time duration reading, 
+                          '*' for multiplication and '/' for division. */
+  return distance;
 }
-
-void loop() {
-  //ULTRASONIC
-  // Clears the trigPin
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  
-  // The loop below takes in 5 distance readings and stores them in an array
-  for(int j=0;j<numb_of_readings;j++){
-    // Sets the trigPin on HIGH state for 10 micro seconds
-    digitalWrite(trigPin, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trigPin, LOW);
-    
-    // Reads the echoPin, returns the sound wave travel time in microseconds
-    duration = pulseIn(echoPin, HIGH);
-    
-    // Calculating the distance
-    current_distance = //Blank: ________________________//;
-    
-    dist_read_array[j] = current_distance;
-
-  }
-
-  // Here the array with 5 recent distance readings is sorted in ascending order
-  sort(dist_read_array,numb_of_readings);
-
-  // The median of the array is taken to achieve an averaging effect
-  // and discard any faulty readings.
-  if (dist_read_array[median_index] < practical_distance)
-  {
-    median_distance = dist_read_array[median_index] - ultrasonic_deadspace;              
-  }
-  
-  // Prints the distance on the Serial Monitor
-  Serial.print("Distance: ");
-  Serial.print(median_distance);
-  
-
-  //LEDS 
-  if(median_distance < controllable_distance)
-  {  
-    leds_off_prop = float(median_distance)/float(controllable_distance);
-
-    // The variable led_counter stores how many LEDs, counting from the start of the strip,
-    // have to be turned on, in order to follow the distance reading.
-    led_counter = (1-leds_off_prop)*NUM_OF_PIXELS;
-  }
-  else
-  {
-    Serial.print(", OUTSIDE OF CONTROLLABLE DISTANCE "); 
-    led_counter = 0;
-  }
-
-  
-  //Iterating through the LEDs in order to update LED colours
-  for(int i=x; i<y; i++)
-    //Change i, x and y to the correct variables
-    {
-      if(x<led_counter)
-      {
-        //Blank: ________________________//;
-      }
-      else
-      {
-        //Blank: ________________________//;
-      }
-    }
-  
-  strip.show();
-  
-
-  //Informational message showing how many LEDs are on
-  Serial.print(", Number of LEDs on: ");
-  Serial.print(led_counter);
-  Serial.println(" ");
-  
-}
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
 
 //Function for sorting an array in an increasing order
 void sort(int a[], int size) {
@@ -134,3 +61,82 @@ void sort(int a[], int size) {
     }
 }
 
+//---------------
+//---MAIN CODE---
+//---------------
+void setup() {
+  //Ultrasonic
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  Serial.begin(9600); // Starts the serial communication
+  
+  //LEDs
+  strip.begin(); //initiliase pin
+  strip.show(); //all pixels 'off' 
+}
+
+void loop() {
+  //ULTRASONIC
+  // Clears the trigPin
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  
+
+  for(int j=0;j<numb_of_readings;j++){
+    // Sets the trigPin on HIGH state for 10 micro seconds
+    digitalWrite(trigPin, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(trigPin, LOW);
+    
+    // Reads the echoPin, returns the sound wave travel Time in microseconds
+    Time = pulseIn(echoPin, HIGH);
+    
+    // Calculating the distance
+    current_distance = calculate_distance(Time);
+    dist_read_array[j] = current_distance;
+
+  }
+
+  //Performing averaging 
+  sort(dist_read_array,numb_of_readings);
+  
+  if (dist_read_array[median_index] < 300)
+  {
+    median_distance = dist_read_array[median_index] - ultrasonic_deadspace;              
+  }
+  
+  // Prints the distance on the Serial Monitor
+  Serial.print("Distance: ");
+  Serial.print(median_distance);
+  
+  //LEDS 
+  if(median_distance < controllable_distance)
+  {  
+    leds_off_prop = float(median_distance)/float(controllable_distance);
+
+    led_counter = (1-leds_off_prop)*NUM_OF_PIXELS;
+  }
+  else
+  {
+    Serial.print(", OUTSIDE OF CONTROLLABLE DISTANCE "); 
+    led_counter = 0;
+  }
+
+    //Loop that goes through all LEDs and turns them on/off depending on distance
+    for(int i=0;i<NUM_OF_PIXELS;i++){
+      if(i<led_counter)
+        {          
+          strip.setPixelColor(i, colour_on);
+        }        
+      else
+        {
+          strip.setPixelColor(i, colour_off);
+        }      
+    }
+    strip.show();
+
+  //Printing the internal control signal state for debugging purposes 
+  Serial.print(", Number of LEDs on: ");
+  Serial.print(led_counter);
+  Serial.println(" ");
+}
