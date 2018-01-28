@@ -18,24 +18,48 @@ const int trigPin = 9;
 const int echoPin = 10;
 const int numb_of_readings = 5;
 const int median_index = ceil(numb_of_readings/2);
-long duration;
+long Time;
 int current_distance;
 int dist_read_array[numb_of_readings];
 int median_distance;
 
-//LEDs
+//LEDS
 #define NUM_OF_PIXELS 10
 #define LED_PIN 2  
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_OF_PIXELS, LED_PIN);
 int controllable_distance = 40; // in cm
 int ultrasonic_deadspace = 10; //in cm
-uint32_t colour_on = strip.Color(255, 255, 255);
-uint32_t colour_off = strip.Color(0, 0, 0);
-
 int led_counter;
 float leds_off_prop;
 
+//-----------------------------------------------------------------
+//-----------------SEGMENTS TO BE COMPLETED------------------------
+//-----------------------------------------------------------------
+uint32_t colour_on = strip.Color(255,127,0); //<-------Insert numbers 0-255 instead of R, G and B.
+uint32_t colour_off = strip.Color(0,0,0); //<-------Insert numbers 0-255 instead of R, G and B.
 
+int calculate_distance(long Time) {
+  int distance = Time*0.034/2;/*/<-------Insert your equation for calculating the distance instead of the word 'EQUATION'. 
+                          Use the variable name 'Time' for the ultrasonic sensor's time duration reading, 
+                          '*' for multiplication and '/' for division. */
+  return distance;
+}
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+//-----------------------------------------------------------------
+
+//Function for sorting an array in an increasing order
+void sort(int a[], int size) {
+    for(int i=0; i<(size-1); i++) {
+        for(int o=0; o<(size-(i+1)); o++) {
+                if(a[o] > a[o+1]) {
+                    int t = a[o];
+                    a[o] = a[o+1];
+                    a[o+1] = t;
+                }
+        }
+    }
+}
 
 //---------------
 //---MAIN CODE---
@@ -64,17 +88,18 @@ void loop() {
     delayMicroseconds(10);
     digitalWrite(trigPin, LOW);
     
-    // Reads the echoPin, returns the sound wave travel time in microseconds
-    duration = pulseIn(echoPin, HIGH);
+    // Reads the echoPin, returns the sound wave travel Time in microseconds
+    Time = pulseIn(echoPin, HIGH);
     
     // Calculating the distance
-    current_distance = duration*0.034/2;
-    
+    current_distance = calculate_distance(Time);
     dist_read_array[j] = current_distance;
 
   }
 
+  //Performing averaging 
   sort(dist_read_array,numb_of_readings);
+  
   if (dist_read_array[median_index] < 300)
   {
     median_distance = dist_read_array[median_index] - ultrasonic_deadspace;              
@@ -85,9 +110,6 @@ void loop() {
   Serial.print(median_distance);
   
   //LEDS 
-
-
-
   if(median_distance < controllable_distance)
   {  
     leds_off_prop = float(median_distance)/float(controllable_distance);
@@ -103,39 +125,18 @@ void loop() {
     //Loop that goes through all LEDs and turns them on/off depending on distance
     for(int i=0;i<NUM_OF_PIXELS;i++){
       if(i<led_counter)
-        { 
-          
+        {          
           strip.setPixelColor(i, colour_on);
-        }
-        
+        }        
       else
         {
           strip.setPixelColor(i, colour_off);
-        }
-      
+        }      
     }
-
     strip.show();
-  
 
-  
+  //Printing the internal control signal state for debugging purposes 
   Serial.print(", Number of LEDs on: ");
   Serial.print(led_counter);
   Serial.println(" ");
-  
 }
-
-//Function for sorting an array in an increasing order
-void sort(int a[], int size) {
-    for(int i=0; i<(size-1); i++) {
-        for(int o=0; o<(size-(i+1)); o++) {
-                if(a[o] > a[o+1]) {
-                    int t = a[o];
-                    a[o] = a[o+1];
-                    a[o+1] = t;
-                }
-        }
-    }
-}
-
-//Function 
